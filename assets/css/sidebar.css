@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');
+
+body {
+    font-family: "Nunito";
+}
+
+.wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 14rem auto;
+}
+
+.wrapper hr {
+    width: 100%;
+    border-top: 1px solid rgba(255,255,255,.15);
+}
+
+.wrapper .sidebar {
+    grid-column: 1;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+    width: 14rem;
+    padding: 0 1rem;
+
+    list-style: none;
+    background: #4e73df linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    background-size: cover;
+}
+
+.wrapper .sidebar > a {
+    display: flex;
+    align-self: center;
+    align-items: center;
+
+    color: #fff;
+    height: 4.375rem;
+    padding: 1.5rem 0;
+
+    font-size: 1rem;
+    font-weight: 800;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .05rem;
+    z-index: 1;
+}
+
+.wrapper .sidebar > a i {
+    font-size: 2rem;
+}
+
+.wrapper .sidebar > a div:nth-child(1) {
+    transform: rotate(-15deg);
+}
+
+.wrapper .sidebar > a div:nth-child(2) {
+    margin: 0 1rem;
+}
+
+.wrapper .sidebar > a div:nth-child(2) sup {
+    font-size: .75rem;
+}
+
+.wrapper .sidebar li {
+    padding: 1rem 0;
+}
+
+.wrapper .sidebar li a {
+    color: rgba(255,255,255,.8);
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 400;
+
+}
+
+.wrapper .sidebar li a i {
+    margin-right: 0.25rem;
+    color: rgba(255,255,255,.3);
+}
+
+.wrapper .sidebar li.active a {
+    color: #fff;
+    font-weight: 700;
+}
+
+.wrapper .sidebar li.active a i {
+    color: #fff;
+}
+
+.wrapper .content {
+    grid-column: 2;
+}
