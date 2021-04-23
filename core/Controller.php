@@ -17,4 +17,13 @@ class Controller {
             die("View não existe");
         }
     }
+
+    // Carrega um asset (verifica se existe)
+    public function asset($asset, $data = []) {
+        if(file_exists("views/".$asset.".php")) {
+            require_once "views/".$asset.".php";
+        } else {
+            die("View não existe");
+        }
+    }
 }

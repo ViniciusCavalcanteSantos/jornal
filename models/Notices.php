@@ -38,6 +38,11 @@ class Notices {
             mkdir("assets/image");
         }
 
+        // Cria a pasta das imagens caso não exista
+        if(!is_dir("assets/image/notices")) {
+            mkdir("assets/image/notices");
+        }
+
         // Verifica a existencia de id e um arquivo para upload
         if(isset($_FILES["upload"]["name"]) && $id) {
             $file = $_FILES["upload"];
@@ -52,7 +57,7 @@ class Notices {
             ];
 
             // Cria a pasta das noticias caso não exista
-            $path = "assets/image/{$id}";
+            $path = "assets/image/notices/{$id}";
             if (!is_dir($path)) {
                 mkdir($path);
             }
