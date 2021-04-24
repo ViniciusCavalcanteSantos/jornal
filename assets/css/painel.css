@@ -9,8 +9,8 @@
 }
 
 .content-table thead tr {
-    background-color: #009879;
-    color: #fff;
+    background-color: var(--primary);
+    color: var(--white);
     text-align: left;
     font-weight: bold;
 }
@@ -29,12 +29,12 @@
 }
 
 .content-table tbody tr:last-of-type {
-    border-bottom: 3px solid #009879;
+    border-bottom: 3px solid var(--primary);
 }
 
 .content-table tbody tr.active {
     font-weight: bold;
-    color: #009879;
+    color: var(--primary);
 }
 
 .content-table tbody tr td a {
@@ -44,13 +44,13 @@
 
 .content-table tbody tr td a:hover {
     text-decoration: underline;
-    color: #009879;
+    color: var(--primary);
 }
 
 .content-table tbody tr td.link {
     cursor: pointer;
     text-decoration: underline;
-    color: #009879;
+    color: var(--primary);
 }
 
 .content-table tbody tr td.link:hover {

@@ -6,48 +6,71 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Jornal - Editor</title>
+    <link rel="stylesheet" href="<?= URLROOT?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/editor.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/sidebar.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/custom_alert.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/custom_popup.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 </head>
 <body>
 <div id="popup-container"></div>
 <div id="alert"></div>
+    <input type="checkbox" id="nav-toggle">
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <h2><span class="lab la-accusoft"></span> <span>Accusoft</span></h2>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="<?= URLROOT?>/admin/painel">
+                        <span class="las la-igloo"></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= URLROOT?>/admin/editor" class="active">
+                        <span class="las la-pen"></span>
+                        <span>Editor</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= URLROOT?>/admin/sair">
+                        <span class="las la-sign-out-alt"></span>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <header>
+            <div class="header-title">
+                <h2>
+                    <label for="nav-toggle">
+                        <span class="las la-bars"></span>
+                    </label>
 
-<div class="wrapper">
-    <ul class="sidebar">
-        <a href="<?= URLROOT?>/">
-            <div>
-                <i class="fas fa-laugh-wink"></i>
+                    Dashboard
+                </h2>
             </div>
-            <div>FUNDA <sup>WEB IT</sup></div>
-        </a>
 
-        <hr>
+            <div class="search-wrapper">
+                <span class="las la-search"></span>
+                <input type="search" placeholder="Search here" />
+            </div>
 
-        <li>
-            <a href="<?= URLROOT?>/admin/painel">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Painel</span>
-            </a>
-        </li>
-        <li class="active">
-            <a href="<?= URLROOT?>/admin/editor">
-                <i class="fas fa-pen"></i>
-                <span>Editor</span>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Sair</span>
-            </a>
-        </li>
-    </ul>
-    <div class="content">
-        <div class="create-notices">
-            <div class="selection">
+            <div class="user-wrapper">
+                <img src="<?= URLROOT?>/assets/image/profile.jpg" alt="" width="40px" height="40px">
+                <div>
+                    <h4>Vinicius C.</h4>
+                    <small>Super admin</small>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="ckeditor-wrapper">
                 <div id="select-title" class="select-title">
                     <input  id="title" type="text" placeholder="Título da notícia" maxlength="80">
                     <button class="btn btn-select-title" onclick="customPopup.openPopup()">SELECIONAR TÍTULO</button>
@@ -66,14 +89,15 @@
 
                         <input type="text" name="filesdeleted" id="filesdeleted" style="display: none"/>
                         <input type="text" name="title" id="titleForm" style="display: none"/>
-                        <textarea name="editor" id="editor" ></textarea>
+                        <textarea name="editor" id="editor"></textarea>
                     </form>
                     <input class="btn btn-submit" type="submit" value="SALVAR NOTÍCIA" onclick="saveNotice()">
                 </div>
             </div>
-        </div>
+        </main>
     </div>
-</div>
+
+
 <script src="<?= URLROOT?>/assets/js/custom_alert.js"></script>
 <script src="<?= URLROOT?>/assets/js/custom_popup.js"></script>
 <script>

@@ -1,5 +1,6 @@
 :root {
-    --primary: #333232;
+    /* 333232; dd2f6e 0088ff; 009879 */
+    --primary: #0088ff;
     --primary-dark: #1d2231;
     --text-grey: #8390a2;
     --white: #fff;
