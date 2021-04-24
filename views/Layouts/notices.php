@@ -214,42 +214,41 @@
         </div>
     </div>
 
-    <div class="aside-menu">
         <?php
 
         include "assets/api/hg_finance.php";
         $HGFinance = new HGFinance("19ab62a6");
         $HGFinance->get();
 
-        // Configuração do dolar
-        $dollarValue = number_format($HGFinance->data["currencies"]["USD"]["buy"], 2, ',', '.');
+        if($HGFinance->data) {
+            // Configuração do dolar
+            $dollarValue = number_format($HGFinance->data["currencies"]["USD"]["buy"], 2, ',', '.');
 
-        $dollarVariation = $HGFinance->data["currencies"]["USD"]["variation"];
+            $dollarVariation = $HGFinance->data["currencies"]["USD"]["variation"];
 
-        $dollarVariationFormated = number_format($dollarVariation, 2, ",", ".");
-        $dollarVariationFormated = ($dollarVariation > 0) ? "+".$dollarVariationFormated : $dollarVariationFormated;
-        $dollarColor = ($dollarVariation > 0) ? "#58b467" : "red";
+            $dollarVariationFormated = number_format($dollarVariation, 2, ",", ".");
+            $dollarVariationFormated = ($dollarVariation > 0) ? "+".$dollarVariationFormated : $dollarVariationFormated;
+            $dollarColor = ($dollarVariation > 0) ? "#58b467" : "red";
 
-        // Configuração da ibovespa
-        $ibovespaVariation = $HGFinance->data["stocks"]["IBOVESPA"]["variation"];
+            // Configuração da ibovespa
+            $ibovespaVariation = $HGFinance->data["stocks"]["IBOVESPA"]["variation"];
 
-        $ibovespaVariationFormated = number_format($ibovespaVariation, 2, ',', '.');
-        $ibovespaVariationFormated = ($ibovespaVariation > 0) ? "+".$ibovespaVariationFormated : $ibovespaVariationFormated;
-        $ibovespaColor = ($ibovespaVariation > 0) ? "#58b467" : "red";
+            $ibovespaVariationFormated = number_format($ibovespaVariation, 2, ',', '.');
+            $ibovespaVariationFormated = ($ibovespaVariation > 0) ? "+".$ibovespaVariationFormated : $ibovespaVariationFormated;
+            $ibovespaColor = ($ibovespaVariation > 0) ? "#58b467" : "red";
 
+            echo "<div class='aside-menu'>";
+            echo "    <div class='economy'>";
+            echo "        <h1>Dolar Hoje <i class='fas fa-search-dollar'></i></h1>";
+            echo "        <p style='color: {$dollarColor}'>R$ {$dollarValue} ({$dollarVariationFormated}%)</p>";
+            echo "        <h1>Ibovespa</h1>";
+            echo "        <p style='color: {$ibovespaColor}'>{$ibovespaVariationFormated}%</p>";
+            echo "    </div>";
+        } else {
+            echo "<div class='ads ads-grid'>394x300";
+        }
         ?>
-
-        <div class="economy">
-
-            <h1>Dolar Hoje <i class="fas fa-search-dollar"></i></h1>
-            <?php echo "<p style='color: {$dollarColor}'>R$ {$dollarValue} ({$dollarVariationFormated}%)</p>" ?>
-            <h1>Ibovespa</h1>
-            <?php echo "<p style='color: {$ibovespaColor}'>{$ibovespaVariationFormated}%</p>" ?>
-        </div>
-
     </div>
-
-    <div class="ads ads-grid">394x300</div>
 
     <div class="social-media">
         <div class="social-media-container">
@@ -259,5 +258,7 @@
             <a href="#"><i class="fab fa-twitter">   </i>Twitter  </a>
         </div>
     </div>
+
+    <div class="ads ads-grid">394x300</div>
 </div>
 
