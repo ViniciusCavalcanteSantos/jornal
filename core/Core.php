@@ -1,32 +1,28 @@
 <?php
 
 class Core {
-    protected $currentController = "client";
+    protected $currentController = "Client";
     protected $currentMethod = "index";
     protected $params = [];
 
     public function __construct() {
         $url = $this->getUrl();
 
-        // Procura em "controllers" pelo primeiro URL do array, ucwords capitaliza a primeira letra
-		if(isset($url[0])) {
-			if(file_exists("controllers/".ucwords($url[0]).".php")) {
+        // Checa que partes da URL foram informadas
+		if(isset($url[0]) && isset($url[1])) {
+		    // Caso se informe o controller e o método
+            if(file_exists("controllers/".ucwords($url[0]).".php") && method_exists(ucwords($url[0]), $url[1])) {
 			    $this->currentController = ucwords($url[0]);
-			    unset($url[0]);
+                $this->currentMethod = $url[1];
+
+                unset($url[0]);
+                unset($url[1]);
 			}
 		}
 
         // Requisita o controller
         require_once "controllers/".$this->currentController.".php";
         $this->currentController = new $this->currentController;
-
-        // Checa a segunda parte da URL
-        if(isset($url[1])) {
-            if(method_exists($this->currentController, $url[1])) {
-                $this->currentMethod = $url[1];
-                unset($url[1]);
-            }
-        }
 
         // Pega parâmetros
         $this->params = $url ? array_values($url) : [];
