@@ -1,3 +1,6 @@
+//variavel golbal
+let URLROOT = location.hostname;
+console.log(URLROOT);
 // Configurações gerais do ckeditor + vinculação do uploadAdpterPlugin
 const ckeditorConfig = {
     extraPlugins: [ UploadAdapterPlugin ],
@@ -86,12 +89,11 @@ class UploadAdapter {
             this.xhr.abort();
         }
     }
-
     // Inicia a preaparação da requisição ajax
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
 
-        xhr.open("POST", urlRoot+"/admin/editor", true);
+        xhr.open("POST", URLROOT+"/admin/editor", true);
     }
 
     // Configura como a resposta da requisição ajax deve ser tratada

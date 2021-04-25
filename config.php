@@ -26,7 +26,7 @@ define("DB_PASS", "");
 define("DB_NAME", "jornal");
 
 // BASE_URL (links dinâmicos)
-define("URLROOT", "http://localhost/jornal-");
+define("URLROOT", "http://jornal");
 
 // APPROOT
 define("APPROOT", dirname(dirname(__FILE__)));

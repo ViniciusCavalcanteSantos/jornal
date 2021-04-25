@@ -10,8 +10,9 @@ class Controller {
     }
 
     // Carrega a view (verifica se existe)
-    public function view($view, $data = []) {
+    public function view($view, $data = [], $extrair = []) {
         if(file_exists("views/".$view.".php")) {
+            extract($extrair);
             require_once "views/".$view.".php";
         } else {
             die("View não existe");

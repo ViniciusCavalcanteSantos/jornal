@@ -83,9 +83,10 @@
                         $rand = rand(10, 1000);
 
                         $href = URLROOT."/admin/editor/".$notice->id;
+                        $posts = URLROOT."/client/posts/".$notice->id;
 
                         echo ($notice->active === 0) ? "<tr>" : "<tr class='active'>";
-                        echo    "<td><a href='#'>{$notice->title}</a></td>";
+                        echo    "<td><a href='{$posts}'>{$notice->title}</a></td>";
                         echo    "<td>{$rand} Views</td>";
                         echo    "<td class='link'><a href='{$href}'>Editar</a></td>";
                         echo    "<td class='link' onclick='deleteNotice(\"{$notice->id}\")'>Apagar</td>";
