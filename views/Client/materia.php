@@ -11,24 +11,20 @@
     <title>Document</title>
 </head>
 <body>
-<?php
-try {
-    if ($noticia): ?>
-        <div id="materia" class="mx-auto">
-
-            <div id="title"><?= $noticia['title'] ?></div>
-            <div id="descricao">amentiss faiz malandris se pirulitá. Mais vale um bebadis conhecidiss, que um alcoolatra
-                anonimis. Quem manda na minha terra sou euzis!
-            </div>
-            <img src="http://Jornal_Trabalho/assets/image/teste.png" alt="IMG" class="img">
-            <div id="data"><?= $noticia['date'] ?></div>
-            <div id="texto"><?= utf8_encode($noticia['notice']) ?></div>
-
-        </div>
-    <?php endif;
-} catch (PDOException $e) {
-    echo " 404 ";
-}
+<?php 
+if(isset($data["notice"])): 
+    $notice = $data["notice"];
 ?>
+    <div id="materia" class="mx-auto">
+
+        <div id="title"><?= $notice->notice?></div>
+        <div id="descricao">
+            amentiss faiz malandris se pirulitá. Mais vale um bebadis conhecidiss, que um alcoolatra anonimis. Quem manda na minha terra sou euzis!
+        </div>
+        <img src="<?= URLROOT ?>/assets/image/profile.jpg" alt="" class="img">
+        <div id="data"><?= $notice->date ?></div>
+        <div id="texto"><?= utf8_encode($notice->notice) ?></div>
+    </div>
+<?php endif;?>
 </body>
 </html>

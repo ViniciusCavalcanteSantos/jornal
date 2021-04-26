@@ -105,7 +105,6 @@
     const customPopup = new CustomPopup(document.getElementById("popup-container"));
     
     <?php
-    echo "const urlRoot = '" . URLROOT . "';";
     $notice = $data["notice"];
     if($notice) {
         echo "let id = '$notice->id';";
@@ -121,10 +120,10 @@
     let editor;
     let paths = [];
 </script>
+<script>const URLROOT = "<?= URLROOT?>";</script>
 <script src="<?= URLROOT?>/assets/api/ckeditor5/build/ckeditor.js"></script>
 <script src="<?= URLROOT?>/assets/js/notices.js"></script>
 <script src="https://kit.fontawesome.com/5fb103eefc.js"></script>
-<!--<button onclick="teste()">teste</button>-->
 </body>
 </html>
 

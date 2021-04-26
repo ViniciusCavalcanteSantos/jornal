@@ -1,6 +1,3 @@
-//variavel golbal
-let URLROOT = location.hostname;
-console.log(URLROOT);
 // Configurações gerais do ckeditor + vinculação do uploadAdpterPlugin
 const ckeditorConfig = {
     extraPlugins: [ UploadAdapterPlugin ],
@@ -115,7 +112,7 @@ class UploadAdapter {
             paths.push(response.url);
 
             resolve({
-                default: urlRoot+"/"+response.url
+                default: URLROOT+"/"+response.url
             });
         });
     }
@@ -144,7 +141,7 @@ function createNotice() {
 
     if(titleValue) {
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", urlRoot + "/admin/editor", false);
+        xhr.open("POST", URLROOT + "/admin/editor", false);
 
         xhr.addEventListener("load", () => {
             const response = JSON.parse(xhr.responseText);
@@ -175,7 +172,7 @@ function createNotice() {
 
 function saveNotice() {
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", urlRoot + "/admin/editor", false);
+    xhr.open("POST", URLROOT + "/admin/editor", false);
 
     xhr.addEventListener("load", () => {
         console.log(xhr.responseText);

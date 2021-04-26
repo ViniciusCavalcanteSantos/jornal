@@ -99,8 +99,9 @@
             </div>
         </main>
     </div>
-<script src="https://kit.fontawesome.com/5fb103eefc.js"></script>
+<script>const URLROOT = "<?= URLROOT?>";</script>
 <script src="<?= URLROOT?>/assets/js/custom_alert.js"></script>
 <script src="<?= URLROOT?>/assets/js/painel.js"></script>
+<script src="https://kit.fontawesome.com/5fb103eefc.js"></script>
 </body>
 </html>

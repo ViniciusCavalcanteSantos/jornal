@@ -1,7 +1,7 @@
 <?php
 class Client extends Controller {
     public function __construct() {
-        $this->postsModel = $this->model("posts");
+        $this->noticesModel = $this->model("Notices");
     }
 
     // Tela inicial
@@ -10,19 +10,15 @@ class Client extends Controller {
     }
 
     public function posts($id) {
-        $dados = array();
-        $extrair = array();
+        $id = filter_var($id, FILTER_VALIDATE_INT);
 
-            $id = filter_var($id, FILTER_VALIDATE_INT);
-
-            if ($id) {
-                $extrair['noticia'] = $this->postsModel->notices($id);
-            } else {
-                echo "algo de errado! 404";
-            }
-
-
-        $this->view("client/materia",$dados, $extrair);
-
+        if ($id) {
+            $data = [
+                "notice" => $this->noticesModel->getNotice($id)
+            ];
+            $this->view("client/materia", $data);
+        } else {
+            header("location: " . URLROOT);
+        }
     }
 }

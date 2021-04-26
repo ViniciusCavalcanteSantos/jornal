@@ -120,7 +120,7 @@ class Notices {
 
     // Pega uma noticia
     public function getNotice($id) {
-        $this->db->query("SELECT id, title, notice FROM notices WHERE id = :id");
+        $this->db->query("SELECT * FROM notices WHERE id = :id");
         $this->db->bind(":id", $id);
 
         return $this->db->single();
@@ -128,7 +128,7 @@ class Notices {
 
     // Pega todas as noticias
     public function getNotices() {
-        $this->db->query("SELECT id, title, date, active FROM notices ORDER BY date");
+        $this->db->query("SELECT * FROM notices ORDER BY date");
         $this->db->execute();
 
         if($this->db->rowCount() > 0) {

@@ -10,7 +10,7 @@ function deleteNotice(id) {
 
         if(response.success) {
             // customAlert.showAlert("noticia apagada com sucesso", 1)
-            window.location.href= `/admin/painel`;
+            window.location.href= `${URLROOT}/admin/painel`;
         } else {
             customAlert.showAlert("Não foi possivel deletar a noticia", 4)
         }
