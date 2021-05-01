@@ -58,33 +58,36 @@ function loadNotices(newsResult) {
 
 // CLASSE SLIDER
 class Slider {
-    constructor(ul) {
-        this.ul = ul;
-        this.slideSize = 515;
+    constructor(ul, slideSize = 485, slideMargin = 30) {
+        this.ul = ul; // Lista
+        this.lis = this.ul.getElementsByTagName("li"); // Todos os items
+        this.slideSize = slideSize + slideMargin; // Tamanho do slide
+        this.slideSizeDefault = slideSize + slideMargin; // Tamanho do slide
+        this.slideMargin = slideMargin; // Margin
+
         this.currentSlide = 1;
         this.currentSlideSize = this.currentSlide * this.slideSize;
         this.slideLength = ul.getElementsByTagName("li").length;
+
+        this.ul.style.width = this.slideSize * (this.slideLength + 4) + "px";
 
         const btnSlide = document.querySelectorAll("#slider-container .btn-slide");
         btnSlide[0].addEventListener("click", () => this.prev());
         btnSlide[1].addEventListener("click", () => this.next());
 
         this.addAutoAdjustSize();
-        this.addBottomMenuController();
-        this.addTouchAndDragging();
-        this.goTo(1, false);
-        this.ul.addEventListener(this.getTransitionEndEventName(), () => this.transitionFinished());
-
-    }
-
-    transitionFinished() {
-        if(this.currentSlide === 0) {
-            this.goTo(this.slideLength, false);
-        } else if (this.currentSlide === this.slideLength + 1) {
+        if(this.slideLength > 2) {
+            this.addBottomMenuController();
+            this.addTouchAndDragging();
             this.goTo(1, false);
+            this.ul.addEventListener(this.getTransitionEndEventName(), () => this.transitionFinished());
+        } else {
+            btnSlide[0].style.display = "none";
+            btnSlide[1].style.display = "none";
         }
     }
 
+    // Vai para o slide informado
     goTo(slideNumber, animation = true) {
         this.currentSlide = slideNumber;
         if(!animation) {
@@ -95,6 +98,7 @@ class Slider {
         this.update();
     }
 
+    // Volta um slide
     prev() {
         if(this.currentSlide !== 0) {
             this.ul.style.transitionDuration = "400ms";
@@ -103,6 +107,7 @@ class Slider {
         }
     }
 
+    // Avança um slide
     next() {
         if(this.currentSlide !== this.slideLength + 1) {
             this.ul.style.transitionDuration = "400ms";
@@ -111,6 +116,7 @@ class Slider {
         }   
     }
 
+    // Atualiza as informações na tela
     update() {
         this.currentSlideSize = this.slideSize * this.currentSlide;
         this.ul.style.transform = `translate3d(${-this.currentSlideSize}px, 0px, 0px)`;
@@ -126,7 +132,7 @@ class Slider {
         }
     }
 
-    move(distance) {
+    moveDistance(distance) {
         const moved = this.currentSlideSize - distance;
         const maxValue = this.slideSize * (this.slideLength + 1);
         this.ul.style.transitionDuration = "0ms";
@@ -137,6 +143,28 @@ class Slider {
             this.ul.style.transform = `translate3d(${-maxValue}px, 0px, 0px)`;
         } else {
             this.ul.style.transform = `translate3d(${-moved}px, 0px, 0px)`;
+        }
+    }
+
+    moveEnd(distance) {
+        if(Math.abs(distance) >= this.slideMargin) {
+            let slidesMoved = Math.ceil(Math.abs(distance / this.slideSize));
+
+            if(this.currentSlideSize - distance <= 0) {
+                this.goTo(this.slideLength, false);
+                return;
+            } else if(this.currentSlideSize - distance >= (this.slideLength + 1) * this.slideSize) {
+                this.goTo(1, false);
+                return;
+            }
+
+            if(distance > 0) {
+                this.goTo(this.currentSlide - slidesMoved);
+            } else if (distance < 0) {
+                this.goTo(this.currentSlide + slidesMoved);
+            }
+        } else {
+            this.goTo(this.currentSlide);
         }
     }
 
@@ -155,29 +183,11 @@ class Slider {
             e.preventDefault();
             endCoord = e.targetTouches[0].pageX;
             distance = endCoord - startCoord;
-            this.move(distance);
+            this.moveDistance(distance);
         });
 
         ul.addEventListener("touchend", () => {
-            if(Math.abs(distance) >= 30) {
-                let n = Math.ceil(Math.abs(distance / this.slideSize));
-
-                if(this.currentSlideSize - distance <= 0) {
-                    this.goTo(this.slideLength, false);
-                    return;
-                } else if(this.currentSlideSize - distance >= (this.slideLength + 1) * this.slideSize) {
-                    this.goTo(1, false);
-                    return;
-                }
-
-                if(distance > 0) {
-                    this.goTo(this.currentSlide - n);
-                } else if (distance < 0) {
-                    this.goTo(this.currentSlide + n);
-                }
-            } else {
-                this.goTo(this.currentSlide);
-            }
+            this.moveEnd(distance);
         });
 
         // MOUSE
@@ -191,36 +201,19 @@ class Slider {
             if(isDragging) {
                 endCoord = e.pageX;
                 distance = endCoord - startCoord;
-                this.move(distance);
+                this.moveDistance(distance);
             }
         });
 
         window.addEventListener("mouseup", () => {
             if(isDragging) {
                 isDragging = false;
-                if(Math.abs(distance) >= 30) {
-                    let n = Math.ceil(Math.abs(distance / this.slideSize));
-
-                    if(this.currentSlideSize - distance <= 0) {
-                        this.goTo(this.slideLength, false);
-                        return;
-                    } else if(this.currentSlideSize - distance >= (this.slideLength + 1) * this.slideSize) {
-                        this.goTo(1, false);
-                        return;
-                    }
-
-                    if(distance > 0) {
-                        this.goTo(this.currentSlide - n);
-                    } else if (distance < 0) {
-                        this.goTo(this.currentSlide + n);
-                    }
-                } else {
-                    this.goTo(this.currentSlide);
-                }
+                this.moveEnd(distance);
             }
         });
     }
 
+    // Ajusta a quantidade de clones do elemento inicial e final
     addAutoAdjustSize() {
         const firstChild = ul.firstElementChild;
         const afterFirstChildClone = firstChild.nextElementSibling.cloneNode(true);
@@ -235,11 +228,13 @@ class Slider {
         } 
         
         if(window.innerWidth <= 494) {
-            this.slideSize = window.innerWidth + 30;
+            this.slideSize = window.innerWidth + this.slideMargin;
             this.currentSlideSize = this.currentSlide * this.slideSize;
         }
 
         window.addEventListener("resize", () => {
+            this.slideSize = this.slideSizeDefault;
+
             if(window.innerWidth <= 1040) {
                 if(ul.querySelector("#clone-element")) {
                     ul.removeChild(afterFirstChildClone);
@@ -250,9 +245,8 @@ class Slider {
                 }
             }
 
-            this.slideSize = "515";
             if(window.innerWidth <= 494) {
-                this.slideSize = window.innerWidth + 30;
+                this.slideSize = window.innerWidth + this.slideMargin;
             }
 
             this.currentSlideSize = this.currentSlide * this.slideSize;
@@ -260,6 +254,7 @@ class Slider {
         });
     }
 
+    // Adiciona um menu para navegar entre os slides
     addBottomMenuController() {
         const sliderController = document.querySelector("#slider-container > .slider-controller");
         for (let i = 0; i < this.slideLength; i++) {
@@ -272,6 +267,16 @@ class Slider {
         }
     }
 
+    // Chamada quando a animação é finalizada
+    transitionFinished() {
+        if(this.currentSlide === 0) {
+            this.goTo(this.slideLength, false);
+        } else if (this.currentSlide === this.slideLength + 1) {
+            this.goTo(1, false);
+        }
+    }
+
+    // Helper: detecta quando o animação esá finalizada, se passada para um event listener
     getTransitionEndEventName() {
         var transitions = {
             "transition"      : "transitionend",
