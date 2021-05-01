@@ -13,8 +13,6 @@
 
     <?php
         $this->view("layouts/header");
-        $this->view("layouts/slider");
-        $this->view("layouts/notices");
     ?>
 
     <script src="<?= URLROOT?>/assets/js/slider.js"></script>

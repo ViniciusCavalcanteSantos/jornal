@@ -250,15 +250,6 @@
         ?>
     </div>
 
-    <div class="social-media">
-        <div class="social-media-container">
-            <a href="#"><i class="fab fa-instagram"> </i>Instagram</a>
-            <a href="#"><i class="fab fa-whatsapp">  </i>Whatsapp </a>
-            <a href="#"><i class="fab fa-facebook-f"></i>Facebook </a>
-            <a href="#"><i class="fab fa-twitter">   </i>Twitter  </a>
-        </div>
-    </div>
-
     <div class="ads ads-grid">394x300</div>
 </div>
 

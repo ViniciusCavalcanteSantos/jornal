@@ -1,46 +1,17 @@
-<style>
-    #topbar .adm-link {
-        position: absolute;
-        font-size: 1rem;
-        color: gold;
-        right: 30px;
-        top: 40px;
-        transform: translateY(-50%);
-    }
-</style>
 <header id="topbar">
-    <a class=adm-link href="<?= URLROOT?>/admin/login">
-        Ir para Admin
-    </a>
-
-    <i onclick="openMenu()" class="fas fa-bars"></i>
-    
     <div class="title">
         <p>JORNAL DIGITAL<span>.NIN</span></p>
     </div>
 
-    <ul id="navbar">
-        <li class="current"><a href="#">INTERNACIONAL</a></li>
-        <li><a href="#">NACIONAL</a></li>
-        <li><a href="#">REGIONAL</a></li>
-        <li><a href="#">BELO JARDIM</a></li>
-        <li><a href="#">GERAL</a></li>
-        <li><a href="#">SAÚDE</a></li>
-        <li><a href="#">SEGURANÇA</a></li>
-        <li><a href="#">ESPORTE</a></li>
-    </ul>
-    
-    <div onclick="closeMenu()" class="fullscreen-shadow"></div>
+    <div class="social-media">
+        <i class="fas fa-address-book"></i>
+
+        <div class="social-links">
+            <a href="#"><i class="fab fa-twitter">   </i>Twitter  </a>
+            <a href="#"><i class="fab fa-instagram"> </i>Instagram</a>
+            <a href="#"><i class="fab fa-whatsapp">  </i>Whatsapp </a>
+            <a href="#"><i class="fab fa-facebook-f"></i>Facebook </a>
+            <a href="<?= URLROOT ?>/admin/login"><i class="fas fa-crown"></i>Admin </a>
+        </div>
+    </div>
 </header>
-
-<script type="text/javascript">
-    const navbar = document.getElementById("navbar");
-
-    function openMenu() {
-        navbar.classList.add("active");
-    }
-
-    function closeMenu() {
-        navbar.classList.remove("active");
-    }
-</script>
