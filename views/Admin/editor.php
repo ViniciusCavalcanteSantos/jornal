@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= URLROOT?>/admin/sair">
+                    <a href="<?= URLROOT?>/admin/logout">
                         <span class="las la-sign-out-alt"></span>
                         <span>Sair</span>
                     </a>
@@ -61,13 +61,20 @@
                 <input type="search" placeholder="Search here" />
             </div>
 
-            <div class="user-wrapper">
-                <img src="<?= URLROOT?>/assets/image/profile.jpg" alt="" width="40px" height="40px">
-                <div>
-                    <h4>Vinicius C.</h4>
-                    <small>Super admin</small>
-                </div>
-            </div>
+            <?php
+            foreach ($data["profile"] as $profile) {
+                $url = URLROOT."/assets/image/profile/profile".md5($profile->id).".jpg";
+                $name = $profile->name;
+                $office = $profile->office;
+                echo '<div class="user-wrapper">';
+                echo "<img src='{$url}' alt='' width='40px' height='40px'>";
+                echo '<div>';
+                echo "<h4>{$name}</h4>";
+                echo "<small>{$office}</small>";
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
         </header>
         <main>
             <div class="ckeditor-wrapper">

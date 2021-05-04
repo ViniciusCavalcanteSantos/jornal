@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= URLROOT?>/admin/sair">
+                    <a href="<?= URLROOT?>/admin/logout">
                         <span class="las la-sign-out-alt"></span>
                         <span>Sair</span>
                     </a>
@@ -57,14 +57,21 @@
                 <span class="las la-search"></span>
                 <input type="search" placeholder="Search here" />
             </div>
+            <?php
+            foreach ($data["profile"] as $profile) {
+                $url = URLROOT."/assets/image/profile/profile".md5($profile->id).".jpg";
+                $name = $profile->name;
+                $office = $profile->office;
+                echo '<div class="user-wrapper">';
+                echo "<img src='{$url}' alt='' width='40px' height='40px'>";
+                echo '<div>';
+                echo "<h4>{$name}</h4>";
+                echo "<small>{$office}</small>";
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
 
-            <div class="user-wrapper">
-                <img src="<?= URLROOT?>/assets/image/profile.jpg" alt="" width="40px" height="40px">
-                <div>
-                    <h4>Vinicius C.</h4>
-                    <small>Super admin</small>
-                </div>
-            </div>
         </header>
         <main>
             <div class="content">
@@ -95,7 +102,7 @@
                         echo    "<td>{$rand} Views</td>";
                         echo    "<td class='link'><a href='{$href}'>Editar</a></td>";
                         echo    "<td class='link' onclick='deleteNotice(\"{$notice->id}\")'>Apagar</td>";
-                        echo    "<td>{$date->format("d/m/Y H:i:s")}</td>";
+                        echo    "<td>{$date->format("d/m/Y H:i")}</td>";
                         echo "</tr>";
                     }
                     ?>

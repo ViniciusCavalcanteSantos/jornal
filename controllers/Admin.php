@@ -7,18 +7,27 @@ class Admin extends Controller {
     }
 
     public function login() {
-        $this->usersModel->login("emailparatestes.com.br", "senhaparatestes");
-        
-        $this->view("admin/login");
+//        $this->usersModel->login("emailparatestes.com.br", "senhaparatestes");
+
+        $email = filter_input(INPUT_POST, "email",FILTER_VALIDATE_EMAIL);
+        $user_name = filter_input(INPUT_POST, "user_name",FILTER_DEFAULT);
+        $password = filter_input(INPUT_POST, "password",FILTER_DEFAULT);
+
+        if ($email and $user_name and $password) {
+            $data = [
+                "erro" => $this->usersModel->login($email, $user_name, $password),
+            ];
+        }else {
+            $data ["erro"] = null;
+        }
+
+        $this->view("admin/login", $data);
     }
 
     // Gerenciamento de noticias
     public function painel() {
         // Checa se existe uma seção
-        session_start();
-        if(!isset($_SESSION["email"]) || !isset($_SESSION["password"])) {
-            header("location: " . URLROOT);
-        }
+        $this->usersModel->checkLogin();
 
         if(!empty($_POST["requestxhr"])) {
             if ($_POST["requestxhr"] === "deletenotice") {
@@ -30,6 +39,7 @@ class Admin extends Controller {
         $notices = $this->noticesModel->getNotices();
         $data = [
             "notices" => $notices,
+            "profile" => $this->usersModel->profileSetup($_SESSION['id']),
         ];
 
         $this->view("admin/painel", $data);
@@ -38,10 +48,7 @@ class Admin extends Controller {
     // Criação e edição de noticias
     public function editor($id = null) {
         // Checa se existe uma seção
-        session_start();
-        if(!isset($_SESSION["email"]) || !isset($_SESSION["password"])) {
-            header("location: " . URLROOT);
-        }
+        $this->usersModel->checkLogin();
         
         // Verifica se a requisição é por xhr
         if(!empty($_POST["requestxhr"])) {
@@ -72,12 +79,14 @@ class Admin extends Controller {
             $data = ["notice" => null];
         }
 
+        $data["profile"] = $this->usersModel->profileSetup($_SESSION['id']);
+
         $this->view("admin/editor", $data);
     }
 
     public function logout() {
-        session_destroy($_SESSION['loginPaniel']);
-        header('location:' . URLROOT);
+        session_destroy();
+        header('location:'.URLROOT);
         die();
     }
 }

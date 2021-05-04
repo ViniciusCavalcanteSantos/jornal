@@ -1,0 +1,8 @@
+*{margin: 0px; padding: 0px;}
+
+.admin-form-title{ font-family: "Agency FB"; font-size: 50px; font-weight: bolder; margin: 0 0 30px 0;}
+.btn-outline-light:hover{color: #00bfbf; border: #00ffff solid 1px;}
+.login{display: flex; justify-content: center; align-items: center; height: 100vh;}
+.login .login-form {background: rgba(0, 191, 191, 1); padding: 50px 45px; border-radius: 10px}
+.form-control {margin: 10px 0 0 0}
+.btn{margin: 10px 0 0 0}
