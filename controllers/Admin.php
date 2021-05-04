@@ -2,6 +2,7 @@
 class Admin extends Controller {
     
     public function __construct(){
+        parent::__construct();
         $this->usersModel = $this->model("Users");
         $this->noticesModel = $this->model("Notices");
     }

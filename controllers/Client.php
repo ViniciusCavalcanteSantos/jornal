@@ -1,6 +1,7 @@
 <?php
 class Client extends Controller {
     public function __construct() {
+        parent::__construct();
         $this->noticesModel = $this->model("Notices");
     }
 

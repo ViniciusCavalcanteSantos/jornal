@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jornal</title>
+    <title><?= $this->config['site_title']?></title>
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/main.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/layouts/header.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/layouts/slider.css">

@@ -2,6 +2,12 @@
 
 // Carrega os models e as views
 class Controller {
+    public function __construct() {
+        $cfg = new config();
+        $this->config = $cfg->getConfig();
+
+    }
+
     public function model($model) {
         // Requisita o arquivo model
         require_once "models/".$model.".php";
