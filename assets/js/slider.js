@@ -39,20 +39,24 @@ function loadNotices(newsResult) {
         const img = slideImgs[i];
         const title = titles[i];
         const result = newsResult[i];
-        
+        let newTitle = result.title.slice(0, 108);
+        newTitle = newTitle + ((result.title.slice(108)) ? "..." : "");
+
         img.setAttribute("src", result.image.url);
         img.classList.add("remove-drag-select");
         title.classList.add("remove-drag-select");
-        title.innerText = result.title;
+        title.innerText = newTitle;
     }
 
     for(let i = 0; i < noticesImgs.length; i++) {
         const result = newsResult[i + 8];
         const img = noticesImgs[i];
         const title = noticesTitles[i];
+        let newTitle = result.title.slice(0, 60);
+        newTitle = newTitle + ((result.title.slice(60)) ? "..." : "");
 
         img.setAttribute("src", result.image.url);
-        title.innerText = result.title;
+        title.innerText = newTitle;
     }
 }
 

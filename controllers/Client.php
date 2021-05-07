@@ -2,12 +2,17 @@
 class Client extends Controller {
     public function __construct() {
         parent::__construct();
+        $this->financeModel = $this->model("Finance");
         $this->noticesModel = $this->model("Notices");
     }
 
     // Tela inicial
     public function index() {
-        $this->view("client/index");
+        $data = [
+            "FinanceJsArray" => $this->financeModel->getFinancesJsArray()
+        ];
+
+        $this->view("client/index", $data);
     }
 
     public function posts($id) {
