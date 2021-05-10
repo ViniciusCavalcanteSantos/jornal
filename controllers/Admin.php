@@ -34,6 +34,10 @@ class Admin extends Controller {
             if ($_POST["requestxhr"] === "deletenotice") {
                 $this->noticesModel->deleteNotice($_POST["id"]);
             }
+
+            if ($_POST["requestxhr"] === "toggleactive") {
+                $this->noticesModel->toggleActive($_POST["id"]);
+            }
             die();
         }
 

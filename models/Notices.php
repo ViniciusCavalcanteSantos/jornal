@@ -149,4 +149,30 @@ class Notices {
             echo json_encode(array("success" => false, "message" => "Não foi possivel apagar a noticia"));
         }
     }
+
+    public function toggleActive($id) {
+        $notice = $this->getNotice($id);
+
+        if($notice) {
+            if($notice->active) {
+                $active = 0;
+                $message = "Noticia desativada com sucesso!";
+            } else {
+                $active = 1;
+                $message = "Noticia ativada com sucesso!";
+            }
+
+            $this->db->query("UPDATE notices SET active = :active WHERE id = :id");
+            $this->db->bind(":id", $id);
+            $this->db->bind(":active", $active);
+
+            if($this->db->execute()) {
+                echo json_encode(array("success" => true, "message" => $message));
+            } else {
+                echo json_encode(array("success" => false, "message" => $message));
+            }
+        } else {
+            echo json_encode(array("success" => true, "message" => "Não foi possivel ativar/desativar a noticia"));
+        }
+    }
 }

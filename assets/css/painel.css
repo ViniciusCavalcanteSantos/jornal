@@ -57,3 +57,7 @@
     color: #e95063;
     text-underline: #e95063;
 }
+
+.content-table tbody tr td:nth-child(6) {
+    text-align: center;
+}

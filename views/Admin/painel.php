@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 </head>
 <body>
+    <div id="custom-alert"></div>
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar">
         <div class="sidebar-brand">
@@ -83,38 +84,44 @@
                         <th>Editar</th>
                         <th>Apagar</th>
                         <th data-sort="true" data-date="true">Data</th>
+                        <th>Ativo</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                     foreach ($data["notices"] as $notice) {
+                        // Titúlo
                         $title = substr(trim($notice->title), 0, 50);
                         $title = $title . (substr($notice->title, 51) ? "..." : "");
 
-                        $date = new DateTime($notice->date);
-                        $rand = rand(10, 1000);
+                        $date = new DateTime($notice->date); // Data
+                        $rand = rand(10, 1000); // Views
+                        $active = ($notice->active === 0) ? "" : "checked";
+
 
                         $href = URLROOT."/admin/editor/".$notice->id;
                         $posts = URLROOT."/client/posts/".$notice->id;
 
-                        echo ($notice->active === 0) ? "<tr>" : "<tr class='active'>";
+                        echo "<tr>";
                         echo    "<td><a href='{$posts}'>{$title}</a></td>";
                         echo    "<td>{$rand} Views</td>";
                         echo    "<td class='link'><a href='{$href}'>Editar</a></td>";
                         echo    "<td class='link' onclick='deleteNotice(\"{$notice->id}\")'>Apagar</td>";
                         echo    "<td>{$date->format("d/m/Y H:i")}</td>";
+                        echo    "<td onclick='toggleActive(\"{$notice->id}\")'><input type='checkbox' {$active}></td>";
                         echo "</tr>";
                     }
                     ?>
+                    
                     </tbody>
                 </table>
             </div>
         </main>
     </div>
 <script>const URLROOT = "<?= URLROOT?>";</script>
+<script src="<?= URLROOT?>/assets/js/custom_alert.js"></script>
 <script src="<?= URLROOT?>/assets/js/painel.js"></script>
 <script src="<?= URLROOT?>/assets/js/table_sort.js"></script>
-<script src="<?= URLROOT?>/assets/js/custom_alert.js"></script>
 <script src="https://kit.fontawesome.com/5fb103eefc.js"></script>
 </body>
 </html>
