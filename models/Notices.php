@@ -83,15 +83,15 @@ class Notices {
         $imagesUsed = filter_input(INPUT_POST, "imagesUsed", FILTER_DEFAULT);
 
         // Verifica a existencia da pasta da noticia
-        if(file_exists("assets/image/{$id}") && is_dir("assets/image/{$id}")) {
+        if(file_exists("assets/image/notices/{$id}") && is_dir("assets/image/notices/{$id}")) {
             $imagesUsedArray = explode(',', $imagesUsed); // Array com as imagens ultilizadas
-            $imagesSaved = array_diff(scandir("assets/image/{$id}"), array(".", "..")); // Array com as imagens salvas
+            $imagesSaved = array_diff(scandir("assets/image/notices/{$id}"), array(".", "..")); // Array com as imagens salvas
 
             $imagesToDelete = array_diff($imagesSaved, $imagesUsedArray); // Array com imagens inutilizadas
 
             // Deleta todas as imagens que não estão sendo usadas
             foreach ($imagesToDelete as $imageToDelete) {
-                $path = "assets/image/{$id}/{$imageToDelete}";
+                $path = "assets/image/notices/{$id}/{$imageToDelete}";
                 if(file_exists($path) && is_file($path)) {
                     unlink($path);
                 }
@@ -142,6 +142,19 @@ class Notices {
     public function deleteNotice($id) {
         $this->db->query("DELETE FROM notices WHERE id = :id");
         $this->db->bind(":id", $id);
+
+        if(file_exists("assets/image/notices/$id") && is_dir("assets/image/notices/$id")) {
+            $images = array_diff(scandir("assets/image/notices/{$id}"), array(".", ".."));
+
+            foreach($images as $image) {
+                $path = "assets/image/notices/{$id}/{$image}";
+                if(file_exists($path) && is_file($path)) {
+                    unlink($path);
+                }
+            }
+
+            rmdir("assets/image/notices/$id");
+        }
 
         if($this->db->execute()) {
             echo json_encode(array("success" => true, "message" => "Noticia apagada com sucesso"));
