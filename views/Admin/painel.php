@@ -53,11 +53,7 @@
                     Dashboard
                 </h2>
             </div>
-
-            <div class="search-wrapper">
-                <span class="las la-search"></span>
-                <input type="search" placeholder="Search here" />
-            </div>
+            
             <?php
             foreach ($data["profile"] as $profile) {
                 $url = URLROOT."/assets/image/profile/profile".md5($profile->id).".jpg";
