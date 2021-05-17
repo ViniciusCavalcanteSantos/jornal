@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 </head>
 <body>
-<div id="popup-container"></div>
-<div id="alert"></div>
+    <div id="popup-container"></div>
+    <div id="alert"></div>
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar">
         <div class="sidebar-brand">
@@ -72,29 +72,25 @@
             ?>
         </header>
         <main>
-            <div class="ckeditor-wrapper">
-                <div id="select-title" class="select-title">
-                    <input  id="title" type="text" placeholder="Título da notícia" maxlength="80">
-                    <button class="btn btn-select-title" onclick="customPopup.openPopup()">SELECIONAR TÍTULO</button>
-                </div>
-
-                <div onclick="checkPermission()">
-                    <form style="max-width: 100%" id="notice-form" class="blocked" action="upload_notice.php" onsubmit="submitForm()" enctype="multipart/form-data" method="POST">
-                        <div class="dropdown-menu">
-                            <select>
-                                <option value="0">Selecione o Tema</option>
-                                <option value="1">Educação</option>
-                                <option value="2">Segurança</option>
-                                <option value="3">Saúde</option>
-                            </select>
+            <div class="ckeditor">
+                <form style="max-width: 100%" onsubmit="saveNotice()">
+                    <div class="input-data">
+                        <div class="wrapper">
+                            <input id="title" type="text" maxlength="80" required>
+                            <div class="underline"></div>
+                            <label>Título</label>
                         </div>
 
-                        <input type="text" name="filesdeleted" id="filesdeleted" style="display: none"/>
-                        <input type="text" name="title" id="titleForm" style="display: none"/>
-                        <textarea name="editor" id="editor"></textarea>
-                    </form>
-                    <input class="btn btn-submit" type="submit" value="SALVAR NOTÍCIA" onclick="saveNotice()">
-                </div>
+                        <div class="wrapper">
+                            <input id="subtitle" type="text" maxlength="80" required>
+                            <div class="underline"></div>
+                            <label>Subtítulo</label>
+                        </div>
+                    </div>
+
+                    <textarea name="editor" id="editor"></textarea>
+                    <input type="submit" value="SALVAR NOTÍCIA">
+                </form>
             </div>
         </main>
     </div>
@@ -106,24 +102,26 @@
     const customAlert = new CustomAlert(document.getElementById("alert"));
     const customPopup = new CustomPopup(document.getElementById("popup-container"));
     
+    let id;
+    let title;
+    let subtitle;
+    let notice;
+    let editor;
+
     <?php
-    $notice = $data["notice"];
-    if($notice) {
-        echo "let id = '$notice->id';";
-        echo "let title = '$notice->title';";
-        echo "let notice = '$notice->notice';";
-    } else {
-        echo "let id;";
-        echo "let title;";
-        echo "let notice = null;";
+    if(isset($data["notice"]) && !empty($data["notice"])) {
+        $notice = $data["notice"];
+
+        echo "id = '$notice->id';";
+        echo "title = '$notice->title';";
+        echo "subtitle = '$notice->subtitle';";
+        echo "notice = '$notice->notice';";
     }
     ?>
-
-    let editor;
-    let paths = [];
 </script>
 <script>const URLROOT = "<?= URLROOT?>";</script>
 <script src="<?= URLROOT?>/assets/api/ckeditor5/build/ckeditor.js"></script>
+<script src="<?= URLROOT?>/assets/js/upload_adapter.js"></script>
 <script src="<?= URLROOT?>/assets/js/notices.js"></script>
 <script src="https://kit.fontawesome.com/5fb103eefc.js"></script>
 </body>

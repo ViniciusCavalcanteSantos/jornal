@@ -14,18 +14,10 @@ class Notices {
         $this->db->query("INSERT INTO notices (title) VALUES (:title)");
         $this->db->bind(":title", $title);
 
-        try {
-            if($this->db->execute()) {
-                echo json_encode(array("title" => $title, "id" => $this->db->getLastInsertId(), "success" => true,
-                    "message" => "Notícia criada com sucesso!"),
-                    JSON_UNESCAPED_UNICODE);
-            } else {
-                echo json_encode(array("title" => $title, "success" => false, "message" => "Ocorreu um erro inesperado!"),
-                    JSON_UNESCAPED_UNICODE);
-            }
-        } catch (PDOException $e) {
-            echo json_encode(array("title" => $title, "success" => false, "message" => "Ocorreu um erro inesperado!"),
-                JSON_UNESCAPED_UNICODE);
+        if($this->db->execute()) {
+            return $this->db->getLastInsertId();
+        } else {
+            return false;
         }
     }
 
@@ -76,13 +68,60 @@ class Notices {
         }
     }
 
-    public function saveNotice($activate = false) {
+    public function saveNotice() {
         // Recebe e trata as informações recebidas
         $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
+        $title = filter_input(INPUT_POST, "title", FILTER_DEFAULT);
+        $subtitle = filter_input(INPUT_POST, "subtitle", FILTER_DEFAULT);
         $editor = filter_input(INPUT_POST, "editor", FILTER_DEFAULT);
+
         $imagesUsed = filter_input(INPUT_POST, "imagesUsed", FILTER_DEFAULT);
 
-        // Verifica a existencia da pasta da noticia
+        // Validações
+        if(!$title || !$subtitle) {
+            echo json_encode(array("success" => false, "message" => "Selecione o título e o subtítulo"),
+                JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        if(mb_strlen($title) > 80) {
+            echo json_encode(array("success" => false, "message" => "Título muito longo (máximo de 80 letras)"),
+                JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        if(mb_strlen($subtitle) > 80) {
+            echo json_encode(array("success" => false, "message" => "Subtítulo muito longo (máximo de 80 letras)"),
+                JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        if(!$id) {
+            $id = $this->createNotice($title);
+
+            if(!$id) {
+                echo json_encode(array("success" => false, "message" => "Não foi possivel criar a noticia!"),
+                    JSON_UNESCAPED_UNICODE);
+                return;
+            }
+        }
+
+        // Salva a noticia
+        $this->db->query("UPDATE notices SET title = :title, subtitle = :subtitle, notice = :editor WHERE id = :id");
+        $this->db->bind(":id", $id);
+        $this->db->bind(":title", $title);
+        $this->db->bind(":subtitle", $subtitle);
+        $this->db->bind(":editor", $editor);
+
+        if($this->db->execute()) {
+            echo json_encode(array("success" => true, "message" => "Noticia salva com sucesso!"),
+                JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(array("success" => false, "message" => "Ocorreu um erro inesperado!"),
+                JSON_UNESCAPED_UNICODE);
+        }
+
+        // Deleta imagens sem uso
         if(file_exists("assets/image/notices/{$id}") && is_dir("assets/image/notices/{$id}")) {
             $imagesUsedArray = explode(',', $imagesUsed); // Array com as imagens ultilizadas
             $imagesSaved = array_diff(scandir("assets/image/notices/{$id}"), array(".", "..")); // Array com as imagens salvas
@@ -97,25 +136,6 @@ class Notices {
                 }
             }
         }
-
-        // Salva a noticia
-        $this->db->query("UPDATE notices SET notice = :editor WHERE id = :id");
-        $this->db->bind(":id", $id);
-        $this->db->bind(":editor", $editor);
-
-        try {
-            if($this->db->execute()) {
-                echo json_encode(array("success" => true, "message" => "Noticia salva com sucesso!"),
-                    JSON_UNESCAPED_UNICODE);
-            } else {
-                echo json_encode(array("success" => false, "message" => "Ocorreu um erro inesperado!"),
-                    JSON_UNESCAPED_UNICODE);
-            }
-        } catch(PDOException $e) {
-            echo json_encode(array("success" => false, "message" => "Ocorreu um erro inesperado!"),
-                JSON_UNESCAPED_UNICODE);
-        }
-
     }
 
     // Pega uma noticia

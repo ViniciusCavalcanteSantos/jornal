@@ -57,11 +57,6 @@ class Admin extends Controller {
         
         // Verifica se a requisição é por xhr
         if(!empty($_POST["requestxhr"])) {
-            // Verifica qual a requisição
-            if($_POST["requestxhr"] === "createnotice") {
-                $this->noticesModel->createNotice($_POST["title"]);
-            }
-
             if($_POST["requestxhr"] === "uploadimage") {
                 $this->noticesModel->uploadImage();
             }
@@ -70,18 +65,12 @@ class Admin extends Controller {
                 $this->noticesModel->saveNotice();
             }
 
-            if($_POST["requestxhr"] === "postnotice") {
-                $this->noticesModel->saveNotice(true);
-            }
-
             die();
         }
 
         // Pega a noticia caso já exista
         if($id) {
-            $data = ["notice" => $this->noticesModel->getNotice($id)];
-        } else {
-            $data = ["notice" => null];
+            $data["notice"] = $this->noticesModel->getNotice($id);
         }
 
         $data["profile"] = $this->usersModel->profileSetup($_SESSION['id']);

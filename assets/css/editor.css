@@ -12,102 +12,89 @@ body {
     padding: revert;
 }
 
-.ckeditor-wrapper {
-    max-width: 100%;
+.ckeditor {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 5px;
+    background-color: var(--white);
 }
 
-.select-title {
+.ckeditor input[type="submit"] {
     width: 100%;
-    margin: 20px 0;
-    display: flex;
-}
-
-.select-title input {
-    outline: none;
-    border: none;
-    margin-right: 30px;
-    font-size: 1rem;
-    padding: 12px 16px;
-    border-bottom: 1px solid #888;
-    flex: 1;
-    height: 100%;
-    font-family: "Open Sans", sans-serif;
-
-}
-
-.blocked {
-    pointer-events: none;
-}
-
-.select-title.blocked input[type="text"] {
-    background:rgba(116, 116, 116, 0.4);
-}
-
-.select-title.blocked button {
-    background:rgba(116, 116, 116, 1);
-}
-
-.btn {
+    margin-top: 20px;
     outline: none;
     border: none;
     cursor: pointer;
     padding: 10px 20px;
     box-shadow: 0 2px 2px #888;
     background: var(--primary);
-    color: #fff;
-    font-family: "Open Sans", sans-serif;
-    font-size: 1rem;
-    letter-spacing: 1px;
+    color: var(--white);
 }
 
-.btn.btn-submit {
-    width: 100%;
-    margin-top: 20px;
-}
-
-.dropdown-menu {
+.input-data {
     display: grid;
-    grid-template-areas: "select";
-    align-items: center;
-    margin-bottom: 20px;
-    border: 1px solid #888;
-    border-radius: 5px;
-    padding: 6px 10px;
-    font-size: 1.25rem;
-    cursor: pointer;
-    line-height: 1.1;
-    background-color: #fff;
-    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
-
+    grid-template-columns: auto auto;
+    column-gap: 30px;
+    row-gap: 30px;
+    padding: 30px 0;
 }
 
-.dropdown-menu::after {
-    content: "";
-    width: 16px;
-    height: 10px;
-    background-color: #777;
-    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-    justify-self: end;
-}
-
-.dropdown-menu select {
+.input-data .wrapper {
+    height: 40px;
     width: 100%;
-    appearance: none;
-    outline: none;
-    box-shadow: none;
+    position: relative;
+}
+
+.input-data .wrapper input {
+    height: 100%;
+    width: 100%;
     border: none;
-    padding: 0 10px;
-    margin: 0;
-    font-size: inherit;
-    cursor: inherit;
-    line-height: inherit;
+    outline: none;
+    font-size: 17px;
+    border-bottom: 2px solid silver;
 }
 
-.dropdown-menu select ::-ms-expand {
-    display: none;
+.input-data .wrapper input:focus ~ label,
+.input-data .wrapper input:valid ~ label {
+    transform: translateY(-20px);
+    font-size: 15px;
+    color: var(--primary);
 }
 
-.dropdown-menu select,
-.dropdown-menu:after {
-    grid-area: select;
+.input-data .wrapper label {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    color: gray;
+    pointer-events: none;
+    transition: all 300ms ease;
+}
+
+.input-data .wrapper .underline {
+    position: absolute;
+    bottom: 0px;
+    height: 2px;
+    width: 100%;
+}
+
+.input-data .wrapper .underline:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: var(--primary);
+    transform: scaleX(0);
+    transition: all 300ms ease;
+}
+
+.input-data .wrapper input:focus ~ .underline:before,
+.input-data .wrapper input:valid ~ .underline:before {
+    transform: scaleX(1);
+}
+
+@media screen and (max-width: 600px) {
+    .input-data {
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+    }
 }
