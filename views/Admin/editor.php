@@ -55,18 +55,17 @@
                     Dashboard
                 </h2>
             </div>
-
             <?php
-            foreach ($data["profile"] as $profile) {
+            if(isset($data["profile"]) && !empty($data["profile"])) {
+                $profile = $data["profile"];
+
                 $url = URLROOT."/assets/image/profile/profile".md5($profile->id).".jpg";
-                $name = $profile->name;
-                $office = $profile->office;
                 echo '<div class="user-wrapper">';
-                echo "<img src='{$url}' alt='' width='40px' height='40px'>";
-                echo '<div>';
-                echo "<h4>{$name}</h4>";
-                echo "<small>{$office}</small>";
-                echo '</div>';
+                echo "    <img src='{$url}' alt='' width='40px' height='40px'>";
+                echo '    <div>';
+                echo "        <h4>{$profile->name}</h4>";
+                echo "        <small>{$profile->office}</small>";
+                echo '    </div>';
                 echo '</div>';
             }
             ?>

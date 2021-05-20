@@ -17,34 +17,27 @@ class Users {
 
     // Faz o login do usúario
     public function login($email, $user_name, $password) {
-        $message = '';
-
-//        $this->db->query("SELECT * FROM usuarios where senha = ':password' and email = ':email'");
-        $this->db->query("SELECT * FROM usuarios where user_name = :user_name");
+        $this->db->query("SELECT * FROM users where user_name = :user_name");
         $this->db->bind(":user_name", $user_name);
-        $resultdata = $this->db->resultSet();
+        $user = $this->db->single();
 
-        foreach ($resultdata as $data) {
-            $passwordHash = password_verify($password, $data->password);
-            $emailHash = password_verify($email, $data->email);
+        if($user) {
+            $passwordHash = password_verify($password, $user->password);
+            $emailHash = password_verify($email, $user->email);
+
             if($passwordHash and $emailHash) {
-                $_SESSION['id'] = $data->id;
+                $_SESSION['id'] = $user->id;
                 header("location: ".URLROOT."/admin/painel");
                 die();
-            } else {
-                $message = 'verifique os campos se estão certos';
             }
         }
-            return $message;
+
+        return false;
     }
 
     public function profileSetup($id) {
-
-    $this->db->query("SELECT id,name,office FROM usuarios where id = :id");
-    $this->db->bind(":id", "$id");
-    return $this->db->resultSet();
-
-
-
+        $this->db->query("SELECT id,name,office FROM users where id = :id");
+        $this->db->bind(":id", "$id");
+        return $this->db->single();
     }
 }
