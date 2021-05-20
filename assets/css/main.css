@@ -1,12 +1,12 @@
-/*@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 /*@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');*/
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
 :root {
-    /* 333232; dd2f6e 0088ff; 009879 */
-    --primary: #0088ff;
+    /* 333232; dd2f6e 0088ff; 009879; f5af09 */
+    --primary: #1e90ff;
     --primary-dark: #1d2231;
     --text-grey: #8390a2;
     --white: #fff;

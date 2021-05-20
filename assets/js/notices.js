@@ -1,3 +1,60 @@
+const cropperEditor = document.getElementById("cropper-editor");
+const img = document.getElementById("background");
+const config = {
+    aspectRatio: 16 / 9,
+    preview: '.img-preview',
+    viewMode: 3
+}
+
+let uploadedImageURL;
+
+let cropper;
+let canvas = "";
+
+const URL = window.URL || window.webkitURL;
+if(URL) {
+    const inputImage = document.getElementById("file-background");
+
+    inputImage.onchange = function() {
+        const files = this.files;
+        let file;
+
+        if(files && files.length) {
+            file = files[0];
+
+            if(/^image\/\w+/.test(file.type)) {
+                if(uploadedImageURL) {
+                    URL.revokeObjectURL(uploadedImageURL);
+                }
+
+                img.src = uploadedImageURL = URL.createObjectURL(file);
+                if(cropper) {
+                    cropper.destroy();
+                }
+
+                openCropperEditor();
+                cropper = new Cropper(img, config);
+                inputImage.value = null;
+            }
+        }
+    }
+}
+
+function saveCrop() {
+    if(cropper) {
+        canvas = (cropper.getCroppedCanvas()).toDataURL();
+        closeCropperEditor();
+    }
+}
+
+function openCropperEditor() {
+    cropperEditor.classList.add("active");
+}
+
+function closeCropperEditor() {
+    cropperEditor.classList.remove("active");
+}
+
 function saveNotice(event) {
     if(!event) {
         event = window.event;
@@ -32,6 +89,8 @@ function saveNotice(event) {
     data.append("title", titleValue);
     data.append("subtitle", subtitleValue);
     data.append("editor", editor.getData());
+    data.append("background", canvas);
+    canvas = "";
     data.append("imagesUsed", getAllUrlsFromEditor().toString());
 
     xhr.send(data);

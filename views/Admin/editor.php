@@ -10,11 +10,10 @@
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/editor.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/sidebar.css">
     <link rel="stylesheet" href="<?= URLROOT?>/assets/css/custom_alert.css">
-    <link rel="stylesheet" href="<?= URLROOT?>/assets/css/custom_popup.css">
+    <link rel="stylesheet" href="<?= URLROOT?>/assets/css/cropper.min.css">
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 </head>
 <body>
-    <div id="popup-container"></div>
     <div id="alert"></div>
     <input type="checkbox" id="nav-toggle">
     <div class="sidebar">
@@ -87,19 +86,50 @@
                         </div>
                     </div>
 
+                    <input type="file" accept="image/*" id="file-background">
+                    <label for="file-background">
+                        <i class="las la-image"></i> &nbsp;
+                        Escolha uma Foto
+                    </label>
+
                     <textarea name="editor" id="editor"></textarea>
                     <input type="submit" value="SALVAR NOTÍCIA">
                 </form>
             </div>
         </main>
     </div>
+    <div id="cropper-editor" class="cropper-editor">
+        <div class="image-cropper-wrapper">
+            <div class="image-cropper">
+                <img alt="Imagem selecionada pelo usúario" id="background">
+            </div>
 
+            <div class="btn-wrapper">
+                <button onclick="saveCrop()">
+                    Salvar
+                </button>
+                <button onclick="closeCropperEditor()">
+                    Cancelar
+                </button>
+            </div>
+        </div>
 
+        <h1>Preview</h1>
+        <div class="preview-container">
+            <div class="img-preview"></div>
+            <div class="title-example">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+<script src="<?= URLROOT?>/assets/js/cropper.min.js"></script>
 <script src="<?= URLROOT?>/assets/js/custom_alert.js"></script>
-<script src="<?= URLROOT?>/assets/js/custom_popup.js"></script>
 <script>
     const customAlert = new CustomAlert(document.getElementById("alert"));
-    const customPopup = new CustomPopup(document.getElementById("popup-container"));
     
     let id;
     let title;

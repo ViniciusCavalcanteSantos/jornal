@@ -74,6 +74,7 @@ class Notices {
         $title = filter_input(INPUT_POST, "title", FILTER_DEFAULT);
         $subtitle = filter_input(INPUT_POST, "subtitle", FILTER_DEFAULT);
         $editor = filter_input(INPUT_POST, "editor", FILTER_DEFAULT);
+        $background = filter_input(INPUT_POST, "background", FILTER_DEFAULT);
 
         $imagesUsed = filter_input(INPUT_POST, "imagesUsed", FILTER_DEFAULT);
 
@@ -106,6 +107,11 @@ class Notices {
             }
         }
 
+        if($background) {
+            $path = "assets/image/notices/{$id}";
+            $this->saveBackgroundCanvas($background, $path);
+        }
+
         // Salva a noticia
         $this->db->query("UPDATE notices SET title = :title, subtitle = :subtitle, notice = :editor WHERE id = :id");
         $this->db->bind(":id", $id);
@@ -124,7 +130,7 @@ class Notices {
         // Deleta imagens sem uso
         if(file_exists("assets/image/notices/{$id}") && is_dir("assets/image/notices/{$id}")) {
             $imagesUsedArray = explode(',', $imagesUsed); // Array com as imagens ultilizadas
-            $imagesSaved = array_diff(scandir("assets/image/notices/{$id}"), array(".", "..")); // Array com as imagens salvas
+            $imagesSaved = array_diff(scandir("assets/image/notices/{$id}"), array(".", "..", "background.png")); // Array com as imagens salvas
 
             $imagesToDelete = array_diff($imagesSaved, $imagesUsedArray); // Array com imagens inutilizadas
 
@@ -136,6 +142,19 @@ class Notices {
                 }
             }
         }
+    }
+
+    public function saveBackgroundCanvas($canvas, $path) {
+        if(!file_exists($path) || !is_dir($path)) {
+            mkdir($path);
+        }
+        $img = str_replace("data:image/png;base64,", "", $canvas);
+        $img = str_replace(" ", "+", $img);
+
+        $fileData = base64_decode($img);
+        $fileName = "background.png";
+
+        file_put_contents($path."/".$fileName, $fileData);
     }
 
     // Pega uma noticia
